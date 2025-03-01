@@ -18,22 +18,3 @@ export const generateCode = async () => {
         return null;
     }
 };
-
-export const validateCode = async (token) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/access/validate-code/${token}`, {
-            method: "POST",
-            credentials: "include",
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || "Invalid code");
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Error validating code:", error);
-        return { message: "Invalid or expired code" };
-    }
-};
