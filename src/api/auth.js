@@ -5,18 +5,21 @@ export const login = async () => {
 };
 
 export const logout = async () => {
-    console.log("Logging out...");
+    try {
+        console.log("Logging out...");
+        const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: "GET",
+            credentials: "include",
+        });
 
-    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-        method: "GET",
-        credentials: "include",
-    });
-
-    if (response.redirected) {
-        console.log("Logout successful");
-        window.location.href = `${response.url}?nocache=${new Date().getTime()}`;
-    } else {
-        console.error("Logout failed:", await response.text());
+        if (response.redirected) {
+            console.log("Logout successful");
+            window.location.href = response.url; // Redirige a la URL final
+        } else {
+            console.error("Logout failed:", await response.text());
+        }
+    } catch (error) {
+        window.location.reload();
     }
 };
 
