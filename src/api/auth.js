@@ -10,15 +10,19 @@ export const logout = async () => {
 
         const response = await fetch(`${API_BASE_URL}/auth/logout`, {
             method: "GET",
-            credentials: "include",
-            mode: "cors", // Asegura que se use CORS correctamente
-            cache: "no-store",
+            credentials: "include", // Ensure cookies are included
+            mode: "cors",          // Use CORS to allow cross-origin requests
+            cache: "no-cache",     // Force no cache to avoid old cookies
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0", // Additional cache control
+                Pragma: "no-cache",
+            },
         });
 
         if (response.ok) {
             console.log("Logout successful");
-            // Recargar la página para asegurar que la sesión se borre correctamente
-            window.location.reload();
+            // Clear browser cache before reloading
+            window.location.href = "/";
         } else {
             console.error("Logout failed:", await response.text());
         }
@@ -26,6 +30,7 @@ export const logout = async () => {
         console.error("Logout request failed:", error);
     }
 };
+
 
 export const getUserProfile = async () => {
     try {
