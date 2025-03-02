@@ -7,22 +7,14 @@ export const login = async () => {
 export const logout = async () => {
     try {
         console.log("Logging out...");
-
         const response = await fetch(`${API_BASE_URL}/auth/logout`, {
             method: "GET",
-            credentials: "include", // Ensure cookies are included
-            mode: "cors",          // Use CORS to allow cross-origin requests
-            cache: "no-cache",     // Force no cache to avoid old cookies
-            headers: {
-                "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0", // Additional cache control
-                Pragma: "no-cache",
-            },
+            credentials: "include",
         });
 
-        if (response.ok) {
+        if (response.redirected) {
             console.log("Logout successful");
-            // Clear browser cache before reloading
-            window.location.href = "/";
+            window.location.href = response.url; // Redirige a la URL final
         } else {
             console.error("Logout failed:", await response.text());
         }
