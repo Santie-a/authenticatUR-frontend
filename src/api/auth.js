@@ -11,6 +11,8 @@ export const logout = async () => {
         const response = await fetch(`${API_BASE_URL}/auth/logout`, {
             method: "GET",
             credentials: "include",
+            mode: "cors", // Asegura que se use CORS correctamente
+            cache: "no-store",
         });
 
         if (response.ok) {
