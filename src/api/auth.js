@@ -6,10 +6,22 @@ export const login = async () => {
 
 export const logout = async () => {
     try {
-        await fetch(`${API_BASE_URL}/auth/logout`, { method: "GET", credentials: "include" });
-        window.location.href = "/";
+        console.log("Logging out...");
+
+        const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (response.ok) {
+            console.log("Logout successful");
+            // Recargar la página para asegurar que la sesión se borre correctamente
+            window.location.reload();
+        } else {
+            console.error("Logout failed:", await response.text());
+        }
     } catch (error) {
-        console.error("Logout failed:", error);
+        console.error("Logout request failed:", error);
     }
 };
 
