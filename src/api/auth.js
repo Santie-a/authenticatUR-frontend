@@ -4,31 +4,25 @@ export const login = async () => {
     window.location.href = `${API_BASE_URL}/auth/login`;
 };
 
-export const logout = async () => {
-    try {
-        console.log("Logging out...");
-        const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-            method: "GET",
-            credentials: "include",
-        });
-
-        if (response.redirected) {
-            console.log("Logout successful");
-            window.location.href = response.url; // Redirige a la URL final
-        } else {
-            console.error("Logout failed:", await response.text());
-        }
-    } catch (error) {
-        window.location.reload();
-    }
+export const logout = () => {
+    console.log("Logging out...");
+    localStorage.removeItem("token"); // Remove token from storage
+    window.location.href = "/"; // Redirect to home/login page
 };
 
-
 export const getUserProfile = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        console.error("No JWT token found.");
+        return null;
+    }
+
     try {
         const response = await fetch(`${API_BASE_URL}/auth/profile`, {
             method: "GET",
-            credentials: "include",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
 
         if (!response.ok) {
@@ -41,3 +35,25 @@ export const getUserProfile = async () => {
         return null;
     }
 };
+
+export const exchangeCode = async (code) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/exchange`, {
+            method: "GET",
+            headers: {
+                "ExchangeCode": `Bearer ${code}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Unauthorized");
+        }
+
+        const data = await response.json();
+        return data.token;
+        
+    } catch (error) {
+        console.error("Error fetching profile:", error);
+        return null;
+    }
+}
