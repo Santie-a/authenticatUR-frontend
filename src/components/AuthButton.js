@@ -1,17 +1,16 @@
 import React from "react";
 import { login, logout } from "../api/auth";
+import "../styles/components/AuthButton.css"
 
 const AuthButton = (props) => {
     const { user } = props
 
     return (
-        <div>
+        <div className={"auth-buttons"}>
             {user ? (
-                <div>
-                    <button onClick={logout}>Logout</button>
-                </div>
+                <button className={"exit-button"} onClick={logout}>Salir</button>
             ) : (
-                <button onClick={login}>Login with Microsoft</button>
+                <button className={"button"} onClick={login}>Entrar</button>
             )}
         </div>
     );

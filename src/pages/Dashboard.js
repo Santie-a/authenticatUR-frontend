@@ -3,6 +3,7 @@ import AccessCode from "../components/AccessCode";
 import Profile from "../components/Profile";
 import AuthButton from "../components/AuthButton";
 import { getUserProfile, exchangeCode } from "../api/auth";
+import "../styles/pages/Dashboard.css" 
 
 const useQuery = () => new URLSearchParams(window.location.search);
 
@@ -31,7 +32,8 @@ const Dashboard = () => {
         });
 
     return (
-        <div>
+        <div className={"container content-box"}>
+            <img src="img/logo_urosario.png" alt="Logo AuthenticatUR" className={"logo"}></img>
             <h1>AuthenticatUR</h1>
             <Profile user={user}/>
             {user && <AccessCode />}

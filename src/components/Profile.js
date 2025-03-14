@@ -1,14 +1,15 @@
 import React from "react";
+import "../styles/components/Profile.css"
 
 const Profile = (props) => {
     const { user } = props
 
-    if (!user) return <p>Please log in.</p>;
+    if (!user) return <p></p>;
 
     return (
-        <div>
-            <h2>User Profile</h2>
-            <p><strong>Email:</strong> {user.username}</p>
+        <div className={"user-info"}>
+            <h2>Usuario</h2>
+            <p>{user.username}</p>
         </div>
     );
 };

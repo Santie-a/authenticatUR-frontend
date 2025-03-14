@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTimer } from 'react-timer-hook';
+import "../styles/components/Countdown.css"
 
 const Countdown = () => {
     const expiryTimestamp = new Date();
@@ -13,7 +14,7 @@ const Countdown = () => {
     });
 
     return (
-        <div>
+        <div className={"countdown"}>
             {
             isValid ?
             <p>
